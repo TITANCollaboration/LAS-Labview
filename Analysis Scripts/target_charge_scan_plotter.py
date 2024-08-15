@@ -4,9 +4,9 @@ import os
 
 os.chdir(os.path.dirname(__file__))
 
-file = "20240814_006 250um step 12mmx13mm overnight.csv"
+file = "20240813_001_BigScan11mmx11mmFullTarget.txt"
 
-target_id = "Cu_17"
+target_id = "CuAlTi_16"
 
 data = np.loadtxt(file, skiprows = 1, delimiter = ",")
 
@@ -36,61 +36,72 @@ charge_grid = np.reshape(charge_per_pulse, (len(np.unique(mirror_z)), len(np.uni
 
 #Mirror coords
 plt.figure()
-plt.title(file[:8] + " " + target_id)
+plt.title(file[:12] + " " + target_id)
 plt.xlabel("Mirror x (mm)")
 plt.ylabel("Mirror z (mm)")
 plt.scatter(mirror_x, mirror_z, c = charge_per_pulse, norm = "log", s=len(mirror_x)/35)
 plt.colorbar(label = "Charge per pulse (C)")
 plt.legend()
+try:
+    plt.savefig("plots/"+file[:12]+"/"+file[:12]+"_plot_mirror_scatter.png")
+except OSError as exc:
+    os.mkdir("plots/"+file[:12])
+    plt.savefig("plots/"+file[:12]+"/"+file[:12]+"_plot_mirror_scatter.png")
 
 #Target coords
 plt.figure()
-plt.title(file[:8] + " " + target_id)
+plt.title(file[:12] + " " + target_id)
 plt.xlabel("Target x (mm)")
 plt.ylabel("Target z (mm)")
 plt.scatter(target_x, target_z, c = charge_per_pulse, norm = "log", s=len(mirror_x)/35)
 plt.colorbar(label = "Charge per pulse (C)")
 plt.legend()
+plt.savefig("plots/"+file[:12]+"/"+file[:12]+"_plot_target_scatter.png")
+
+
 #plot the data as an imshow
 
 #mirror coords
 
 # linear scaling
 fig, ax = plt.subplots()
-ax.set_title(file[:8] + " " + target_id)
+ax.set_title(file[:12] + " " + target_id)
 ax.set_xlabel("Mirror x (mm)")
 ax.set_ylabel("Mirror z (mm)")
 im = ax.imshow(charge_grid,extent = [np.min(mirror_x), np.max(mirror_x), np.max(mirror_z), np.min(mirror_z)])
 fig.colorbar(im, label = "Charge per pulse (C)")
 fig.legend()
+fig.savefig("plots/"+file[:12]+"/"+file[:12]+"_plot_linear_mirror_imshow.png")
 
 # log scaling 
 fig, ax = plt.subplots()
-ax.set_title(file[:8] + " " + target_id)
+ax.set_title(file[:12] + " " + target_id)
 ax.set_xlabel("Mirror x (mm)")
 ax.set_ylabel("Mirror z (mm)")
 im = ax.imshow(charge_grid, norm = "log",extent = [np.min(mirror_x), np.max(mirror_x), np.max(mirror_z), np.min(mirror_z)])
 fig.colorbar(im, label = "Charge per pulse (C)")
 fig.legend()
+fig.savefig("plots/"+file[:12]+"/"+file[:12]+"_plot_log_mirror_imshow.png")
 
 #target coords
 
 # linear scaling
 fig, ax = plt.subplots()
-ax.set_title(file[:8] + " " + target_id)
+ax.set_title(file[:12] + " " + target_id)
 ax.set_xlabel("Target x (mm)")
 ax.set_ylabel("Target z (mm)")
 im = ax.imshow(charge_grid,extent = [np.min(target_x), np.max(target_x), np.max(target_z), np.min(target_z)])
 fig.colorbar(im, label = "Charge per pulse (C)")
 fig.legend()
+fig.savefig("plots/"+file[:12]+"/"+file[:12]+"_plot_linear_target_imshow.png")
 
 # log scaling
 fig, ax = plt.subplots()
-ax.set_title(file[:8] + " " + target_id)
+ax.set_title(file[:12] + " " + target_id)
 ax.set_xlabel("Target x (mm)")
 ax.set_ylabel("Target z (mm)")
 im = ax.imshow(charge_grid, norm = "log",extent = [np.min(target_x), np.max(target_x), np.max(target_z), np.min(target_z)])
 fig.colorbar(im, label = "Charge per pulse (C)")
 fig.legend()
-
+fig.savefig("plots/"+file[:12]+"/"+file[:12]+"_plot_log_target_imshow.png")
 plt.show()
