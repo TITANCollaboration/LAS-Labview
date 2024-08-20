@@ -6,7 +6,7 @@ os.chdir(os.path.dirname(__file__))
 
 file = "20240815_003 CuAlTi18 250um 10mmx12mm.csv"
 
-target_id = "CuAlTi_18"
+target_id = "CuAlTi_18" #test
 
 data = np.loadtxt(file, skiprows = 1, delimiter = ",")
 
