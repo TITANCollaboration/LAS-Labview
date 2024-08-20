@@ -4,7 +4,7 @@ import os
 
 os.chdir(os.path.dirname(__file__))
 
-file = "20240815_008 CuAlTi18 125um 10mmx12mm super dense overnight scan.csv"
+file = "20240819_059_CuAlTi18_CoarseScan_FC3_500um_1DScan_X.csv"
 
 #target_id = "CuAlTi_18"
 
@@ -88,6 +88,7 @@ ax.set_title(file[:12] + " " + target_id)
 ax.set_xlabel("Mirror x (mm)")
 ax.set_ylabel("Mirror z (mm)")
 im = ax.imshow(charge_grid, norm = "log",extent = [np.min(mirror_x), np.max(mirror_x), np.max(mirror_z), np.min(mirror_z)])
+im.set_clim(0.001, 0.03) #set scale to remove outliers 
 fig.colorbar(im, label = "Charge per pulse per energy (pC/uJ)")
 fig.legend()
 fig.savefig("plots/"+file[:12]+"/"+file[:12]+"_plot_log_mirror_imshow.png")
